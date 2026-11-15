@@ -1,0 +1,24 @@
+# Local Codex setup and installed skills
+.agents/
+.codex/
+
+# Internal project context used while building; not needed to run the site
+PRODUCT.md
+
+# Local secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+*.local
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated dependencies, builds, and logs
+node_modules/
+dist/
+build/
+*.log
+
+# Original photo files; the site uses the optimized WebP copies
+assets/photos/**/*.jpg
