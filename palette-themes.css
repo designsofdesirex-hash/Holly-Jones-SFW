@@ -136,8 +136,7 @@ body { background: var(--canvas); color: var(--dark-fg); }
 .tribute-general:hover { background: var(--gold); color: var(--button-fg); }
 .hero-mark, .youtube-frame { border-color: var(--foil-gold); }
 .footer-portrait { border-color: var(--foil-gold); background: var(--footer-surface); }
-.footer-links { border-color: var(--line); }
-.footer-links a:hover, .footer small { color: var(--footer-accent); }
+.footer small { color: var(--footer-accent); }
 .gallery-control:hover { color: var(--light-accent); }
 .section-black a:focus-visible, .section-black button:focus-visible,
 .section-red a:focus-visible, .section-red button:focus-visible { outline-color: var(--foil-gold); }
