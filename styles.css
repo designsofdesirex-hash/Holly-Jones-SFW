@@ -159,9 +159,12 @@ h2 { font-size: clamp(4rem, 9vw, 9.5rem); }
 
 @media (max-width: 760px) {
   .age-gate { padding: 1rem; }
-  .age-gate-copy { padding: 2rem 1.25rem; }
-  .age-gate-copy h1 { font-size: clamp(2.5rem, 13vw, 5rem); }
-  .age-gate-copy > p:not(.age-gate-label) { margin: 1.25rem auto 1.5rem; }
+  .age-gate-copy { box-sizing: border-box; width: calc(100vw - 2rem); max-width: 32rem; min-width: 0; padding: 1.75rem 1.25rem; }
+  .age-gate-copy h1 { max-width: 100%; font-size: clamp(2.25rem, 10vw, 4rem); }
+  .age-gate-copy > p:not(.age-gate-label) { width: 100%; max-width: 100%; margin: 1.25rem auto 1.5rem; overflow-wrap: anywhere; }
+  .age-gate-actions { width: 100%; flex-direction: column; gap: .75rem; }
+  .age-gate-actions .button,.age-gate-actions .text-link { box-sizing: border-box; width: 100%; max-width: 100%; }
+  .age-gate-actions .text-link { display: block; min-height: 44px; line-height: 44px; }
   .section-black,.section-paper,.section-red { padding: 5rem 1.25rem; }
   .topbar { padding: 0 1.25rem; height: 64px; }
   .topbar-status { display: none; }
