@@ -79,15 +79,10 @@ ageEnter.addEventListener('click', () => {
 
 const slideshowPools = {
   landing: 7,
-  life: 10,
 };
 
 const slideshowElements = document.querySelectorAll('[data-slideshow]');
 const slideshowState = new Map();
-const lifeSlideshowElements = [...document.querySelectorAll('[data-slideshow="life"]')];
-let lifeVisibleSlides = [];
-let lifeSlideshowVisible = false;
-let lifeSlideshowInitialized = false;
 
 function shuffledSlideIndexes(count) {
   const indexes = Array.from({ length: count }, (_, index) => index);
@@ -96,12 +91,6 @@ function shuffledSlideIndexes(count) {
     [indexes[index], indexes[swapIndex]] = [indexes[swapIndex], indexes[index]];
   }
   return indexes;
-}
-
-function nextLifeLineup() {
-  const available = shuffledSlideIndexes(slideshowPools.life)
-    .filter((index) => !lifeVisibleSlides.includes(index));
-  return available.slice(0, lifeSlideshowElements.length);
 }
 
 function slidePath(pool, index) {
@@ -131,57 +120,17 @@ function setSlide(element, pool, index) {
 slideshowElements.forEach((element) => {
   const pool = element.dataset.slideshow;
   const offset = Number(element.dataset.slideOffset || 0);
-  const initialIndex = pool === 'life' ? undefined : offset;
-
-  if (initialIndex !== undefined) {
-    slideshowState.set(element, initialIndex);
-    if (element.matches('img')) {
-      element.src = slidePath(pool, initialIndex);
-    } else {
-      element.style.backgroundImage = `url("${slidePath(pool, initialIndex)}")`;
-    }
+  slideshowState.set(element, offset);
+  if (element.matches('img')) {
+    element.src = slidePath(pool, offset);
+  } else {
+    element.style.backgroundImage = `url("${slidePath(pool, offset)}")`;
   }
 });
 
-function initializeLifeSlideshow() {
-  if (lifeSlideshowInitialized) return;
-  lifeSlideshowInitialized = true;
-  lifeVisibleSlides = shuffledSlideIndexes(slideshowPools.life).slice(0, lifeSlideshowElements.length);
-  lifeSlideshowElements.forEach((element, index) => {
-    const slideIndex = lifeVisibleSlides[index];
-    slideshowState.set(element, slideIndex);
-    element.style.backgroundImage = `url("${slidePath('life', slideIndex)}")`;
-  });
-}
-
-const lifeSection = document.querySelector('.lifestyle');
-if ('IntersectionObserver' in window && lifeSection) {
-  const lifeObserver = new IntersectionObserver(([entry]) => {
-    lifeSlideshowVisible = entry.isIntersecting;
-    if (lifeSlideshowVisible) initializeLifeSlideshow();
-  }, { rootMargin: '240px 0px' });
-  lifeObserver.observe(lifeSection);
-} else {
-  lifeSlideshowVisible = true;
-  initializeLifeSlideshow();
-}
-
 window.setInterval(() => {
-  if (lifeSlideshowVisible) {
-    if (!lifeSlideshowInitialized) initializeLifeSlideshow();
-    else {
-      lifeVisibleSlides = nextLifeLineup();
-      lifeSlideshowElements.forEach((element, index) => {
-        const nextIndex = lifeVisibleSlides[index];
-        slideshowState.set(element, nextIndex);
-        setSlide(element, 'life', nextIndex);
-      });
-    }
-  }
-
   slideshowElements.forEach((element) => {
     const pool = element.dataset.slideshow;
-    if (pool === 'life') return;
     const nextIndex = (slideshowState.get(element) + 1) % slideshowPools[pool];
     slideshowState.set(element, nextIndex);
     setSlide(element, pool, nextIndex);
